@@ -35,7 +35,7 @@ def predict_class(features):
     label = label_classes[predicted_idx]
     return label, confidence
 
-def detect(path, is_image=True):
+def detect(path, is_image):
     if is_image:
         
         image = Image.open(path).convert("RGB")
@@ -73,7 +73,12 @@ def detect(path, is_image=True):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Human & Animal Classifier")
     parser.add_argument("--path", type=str, required=True, help="Path to image or video file")
-    parser.add_argument("--is_image", type=bool, required=True, help="True for image, False for video")
+    parser.add_argument('--is_image', type=str, default="True", help="True for image, False for video.")
+    # parser.add_argument("--is_image", type=bool, required=True, help="True for image, False for video")
 
     args = parser.parse_args()
-    detect(args.path, args.is_image)
+
+    # Convert string to actual boolean
+    is_image = args.is_image.lower() == "true"
+
+    detect(args.path, is_image=is_image)
